@@ -51,7 +51,7 @@ Copy-Item -Path "X:\OSDCloud\Config\Scripts\SetupComplete\SetupComplete.cmd" -De
 Copy-Item -Path "X:\OSDCloud\Config\Scripts\SetupComplete\SetupComplete.ps1" -Destination "C:\OSDCloud\Scripts\SetupComplete\SetupComplete.ps1" -Force
 
 Write-Host  -ForegroundColor Green "Nic copy driver install"
-##Copy-Item -Path "X:\OSDCloud\Config\Scripts\SetupComplete\NicDriver.msi" -Destination "C:\OSDCloud\Scripts\SetupComplete\NicDriver.msi" -Force
+Copy-Item -Path "X:\OSDCloud\Config\Scripts\SetupComplete\managementagentx64.msi" -Destination "C:\OSDCloud\Scripts\SetupComplete\managementagentx64.msi" -Force
 
 
 $OOBEScript = "Updates_Activation.ps1"
