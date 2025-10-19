@@ -53,7 +53,7 @@ Copy-Item -Path "X:\OSDCloud\Config\Scripts\SetupComplete\SetupComplete.cmd" -De
 Copy-Item -Path "X:\OSDCloud\Config\Scripts\SetupComplete\SetupComplete.ps1" -Destination "C:\OSDCloud\Scripts\SetupComplete\SetupComplete.ps1" -Force
 
 Write-Host  -ForegroundColor Green "Nic copy driver install"
-Copy-Item -Path "X:\OSDCloud\Config\Scripts\SetupComplete\managementagentx64.msi" -Destination "C:\OSDCloud\Scripts\SetupComplete\managementagentx64.msi" -Force
+#copy-Item -Path "X:\OSDCloud\Config\Scripts\SetupComplete\managementagentx64.msi" -Destination "C:\OSDCloud\Scripts\SetupComplete\managementagentx64.msi" -Force
 
 # Drivers
 New-Item -Path "C:\Drivers" -ItemType Directory -Force | Out-Null
