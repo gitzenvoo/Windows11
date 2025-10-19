@@ -64,13 +64,13 @@ Process {
     write-Host "$ts Hypervisor: $hv"
     Write-Output "$ts Hypervisor: $hv"
 
-    $citrixMsi = "C:\OSDCloud\Drivers\managementagentx64.msi"
+    $citrixMsi = "C:\Drivers\managementagentx64.msi"
     if ($hv -eq "Xen" -and (Test-Path $citrixMsi)) {
     write-Host "$ts Install Citrix/Xen Tools"
     Write-Output "$ts Install Citrix/Xen Tools"
     Start-Process msiexec.exe -ArgumentList @('/i', $citrixMsi, '/qn', '/norestart') -Wait
 
-    $VirtioExe = "C:\OSDCloud\Drivers\Virtio\virtio-win-guest-tools.exe"
+    $VirtioExe = "C:\Drivers\Virtio\virtio-win-guest-tools.exe"
     if ($hv -eq "KVM" -and (Test-Path $virtioExe)) {
     write-Host "$ts Install Virtio Tools"
     Write-Output "$ts Install Virtio Tools"
