@@ -55,6 +55,9 @@ Copy-Item -Path "X:\OSDCloud\Config\Scripts\SetupComplete\SetupComplete.ps1" -De
 Write-Host  -ForegroundColor Green "Nic copy driver install"
 Copy-Item -Path "X:\OSDCloud\Config\Scripts\SetupComplete\managementagentx64.msi" -Destination "C:\OSDCloud\Scripts\SetupComplete\managementagentx64.msi" -Force
 
+# Drivers
+New-Item -Path "C:\Drivers" -ItemType Directory -Force | Out-Null
+Robocopy x:\OSDCloud\Drivers C:\Drivers /E /r:0 /w:0
 
 $OOBEScript = "Updates_Activation.ps1"
 Invoke-RestMethod   -Uri "https://raw.githubusercontent.com/gitzenvoo/Windows11/refs/heads/main/OSDCloud/OOBE/SplashScreen/$OOBEScript" `
