@@ -36,6 +36,8 @@ $Params = @{
     ZTI = $true
     Firmware = $false
     SkipAutopilot = $true
+    FindImage = $true
+    ImageIndex = 6
 }
 Start-OSDCloud @Params
 
