@@ -14,6 +14,10 @@
 #>
 $Scripts2run = @(
   @{
+    Name = "Windows Drivers"
+    Script = "https://raw.githubusercontent.com/gitzenvoo/Windows11/refs/heads/main/OSDCloud/OOBE/Windows-Drivers.ps1"
+  },
+  @{
     Name = "Enabling built-in Windows Producy Key"
     Script = "https://raw.githubusercontent.com/gitzenvoo/Windows11/refs/heads/main/OSDCloud/OOBE/Set-EmbeddedWINKey.ps1"
   },
