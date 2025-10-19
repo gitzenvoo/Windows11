@@ -24,6 +24,21 @@ Param(
     [Int32] $RebootTimeout = 10 # seconds
 )
 
+function Get-Hypervisor {
+    try {
+        $cs = Get-CimInstance -ClassName Win32_ComputerSystem
+        $bios = Get-CimInstance -ClassName Win32_BIOS
+        $man = ($cs.Manufacturer, $cs.Model, $bios.Manufacturer, $bios.SMBIOSBIOSVersion) -join ' '
+        switch -Regex ($man) {
+            "Xen|Citrix"         { return "Xen" }
+            "KVM|QEMU|Red Hat"   { return "KVM" }
+            "VMware"             { return "VMware" }
+            "Microsoft|Hyper-V"  { return "HyperV" }
+            default              { return "Physical/Other" }
+        }
+    } catch { return "Unknown" }
+}
+
 Process {
 
     # If running as a 32-bit process on an x64 system, re-launch as a 64-bit process
@@ -33,9 +48,9 @@ Process {
     }
 
     # Start logging
-    Start-Transcript "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\Windows-FirmwareAndDrivers.log" | Out-Null
+    Start-Transcript "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\Windows-Drivers.log" | Out-Null
 
-    Write-Host "Installing Windows Firmware and Drivers Updates ..."
+    Write-Host "Installing Windows Drivers ..."
 
     # Opt into Microsoft Update
     $ts = Get-Date -Format "yyyy/MM/dd hh:mm:ss tt"
@@ -45,38 +60,23 @@ Process {
     $ServiceManager.AddService2($ServiceId, 7, "") | Out-Null
 
     # Install available firmware and drivers updates
-    $WUDownloader = (New-Object -ComObject Microsoft.Update.Session).CreateUpdateDownloader()
-    $WUInstaller = (New-Object -ComObject Microsoft.Update.Session).CreateUpdateInstaller()
-    $queries = @("IsInstalled=0 and Type='Driver'")
+    $hv = Get-Hypervisor
+    write-Host "$ts Hypervisor: $hv"
+    Write-Output "$ts Hypervisor: $hv"
 
-    $queries | ForEach-Object {
-        $WUUpdates = New-Object -ComObject Microsoft.Update.UpdateColl
-        Write-Host "$ts Getting drivers updates."
-        
-        (New-Object -ComObject Microsoft.Update.Session).CreateUpdateSearcher().Search($_).Updates | ForEach-Object {
-            if (!$_.EulaAccepted) { $_.EulaAccepted = $true }
-            if ($_.Title -notmatch "Preview") { [void]$WUUpdates.Add($_) }
-        }
+    $citrixMsi = "C:\OSDCloud\Drivers\managementagentx64.msi"
+    if ($hv -eq "Xen" -and (Test-Path $citrixMsi)) {
+    write-Host "$ts Install Citrix/Xen Tools"
+    Write-Output "$ts Install Citrix/Xen Tools"
+    Start-Process msiexec.exe -ArgumentList @('/i', $citrixMsi, '/qn', '/norestart') -Wait
 
-        if ($WUUpdates.Count -ge 1) {
-            $WUInstaller.ForceQuiet = $true
-            $WUInstaller.Updates = $WUUpdates
-            $WUDownloader.Updates = $WUUpdates
-            
-            if ($WUDownloader.Updates.Count -ge 1) {
-                Write-Output "$ts Downloading updates"
-                $Download = $WUDownloader.Download()
-                Write-Verbose $Download
-            }
-            if ($WUInstaller.Updates.Count -ge 1) {
-                Write-Output "$ts Installing updates"
-                $Install = $WUInstaller.Install()
-                $script:needReboot = $Install.RebootRequired
-            } 
-        } else {
-            Write-Output "No Firmware or Driver Updates Found"
-        } 
-    }
+    $VirtioExe = "C:\OSDCloud\Drivers\Virtio\virtio-win-guest-tools.exe"
+    if ($hv -eq "KVM" -and (Test-Path $virtioExe)) {
+    write-Host "$ts Install Virtio Tools"
+    Write-Output "$ts Install Virtio Tools"
+    Start-Process "$virtioExe" -ArgumentList @('/qn','/norestart') -Wait
+}
+}
 
     # Reboot handling
     $ts = Get-Date -Format "yyyy/MM/dd hh:mm:ss tt"
