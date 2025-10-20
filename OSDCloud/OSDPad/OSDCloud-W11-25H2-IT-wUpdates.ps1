@@ -27,6 +27,7 @@ Import-Module OSD -Force
 #################################################################
 #   [OS] Params and Start-OSDCloud
 #################################################################
+$LocalESD = "X:\OSDCloud\Config\OS\win11_25h2_it-it.esd"
 $Params = @{
     OSVersion = "Windows 11"
     OSBuild = "25H2"
@@ -36,7 +37,8 @@ $Params = @{
     ZTI = $true
     Firmware = $false
     SkipAutopilot = $true
-    FindImage = $true
+    InstallESD  = $LocalESD
+    FindImage = $false
     ImageIndex = 6
 }
 Start-OSDCloud @Params
@@ -57,7 +59,7 @@ Write-Host  -ForegroundColor Green "Nic copy driver install"
 
 # Drivers
 New-Item -Path "C:\Drivers" -ItemType Directory -Force | Out-Null
-Robocopy x:\OSDCloud\Drivers C:\Drivers /E /r:0 /w:0
+Robocopy X:\OSDCloud\Config\Drivers C:\Drivers /E /r:0 /w:0
 
 $OOBEScript = "Updates_Activation.ps1"
 Invoke-RestMethod   -Uri "https://raw.githubusercontent.com/gitzenvoo/Windows11/refs/heads/main/OSDCloud/OOBE/SplashScreen/$OOBEScript" `
