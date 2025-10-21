@@ -27,7 +27,7 @@ cmd
 #################################################################
 #   [OS] Params and Start-OSDCloud
 #################################################################
-$LocalESD = "C:\OSDCloud\OS\win11_25h2_it-it.esd"
+$LocalESD = "C:\OSDCloud\OS\26200.6584.250915-1905.25h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_x64FRE_it-it.esd"
 $Params = @{
     OSVersion = "Windows 11"
     OSBuild = "25H2"
