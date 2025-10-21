@@ -23,7 +23,7 @@ Install-Module OSD -Force -ErrorAction SilentlyContinue
 
 Write-Host  -ForegroundColor Green "Importing OSD PowerShell Module"
 Import-Module OSD -Force   
-
+cmd
 #################################################################
 #   [OS] Params and Start-OSDCloud
 #################################################################
