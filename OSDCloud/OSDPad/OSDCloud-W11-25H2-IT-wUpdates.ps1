@@ -27,7 +27,7 @@ Import-Module OSD -Force
 #################################################################
 #   [OS] Params and Start-OSDCloud
 #################################################################
-$LocalESD = "X:\OSDCloud\Config\OS\win11_25h2_it-it.esd"
+$LocalESD = "C:\OSDCloud\OS\win11_25h2_it-it.esd"
 $Params = @{
     OSVersion = "Windows 11"
     OSBuild = "25H2"
