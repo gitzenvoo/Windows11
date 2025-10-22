@@ -38,7 +38,7 @@ $Params = @{
     Firmware = $false
     SkipAutopilot = $true
     FindImage = $false
-    ImageIndex = 1
+    ImageIndex = 8
     ImageFile = $LocalESD
 }
 Start-OSDCloud @Params
