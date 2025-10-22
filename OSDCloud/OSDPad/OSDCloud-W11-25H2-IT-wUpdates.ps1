@@ -27,7 +27,7 @@ Import-Module OSD -Force
 #################################################################
 #   [OS] Params and Start-OSDCloud
 #################################################################
-$LocalESD = "D:\OSDCloud\OS\win11_25h2_it-it.esd"
+$LocalESD = "D:\OSDCloud\OS\win11_25h2_it-it.wim"
 $Params = @{
     #OSVersion = "Windows 11"
     #OSBuild = "25H2"
@@ -37,8 +37,8 @@ $Params = @{
     ZTI = $true
     Firmware = $false
     SkipAutopilot = $true
-    FindImage = $false
-    ImageIndex = 9
+    #FindImage = $false
+    ImageIndex = 1
     ImageFile = $LocalESD
 }
 Start-OSDCloud @Params
