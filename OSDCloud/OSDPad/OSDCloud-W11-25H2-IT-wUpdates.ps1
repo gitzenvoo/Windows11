@@ -14,7 +14,22 @@
 
     
 #>
-    
+
+function Get-Hypervisor {
+    try {
+        $cs = Get-CimInstance -ClassName Win32_ComputerSystem
+        $bios = Get-CimInstance -ClassName Win32_BIOS
+        $man = ($cs.Manufacturer, $cs.Model, $bios.Manufacturer, $bios.SMBIOSBIOSVersion) -join ' '
+        switch -Regex ($man) {
+            "Xen|Citrix"         { return "Xen" }
+            "KVM|QEMU|Red Hat"   { return "KVM" }
+            "VMware"             { return "VMware" }
+            "Microsoft|Hyper-V"  { return "HyperV" }
+            default              { return "Physical" }
+        }
+    } catch { return "Unknown" }
+}
+
 #################################################################
 #   [PreOS] Update Module
 #################################################################
@@ -59,7 +74,19 @@ Write-Host  -ForegroundColor Green "Nic copy driver install"
 
 # Drivers
 New-Item -Path "C:\Drivers" -ItemType Directory -Force | Out-Null
-Robocopy X:\OSDCloud\Config\Drivers C:\Drivers /E /r:0 /w:0
+$hv = Get-Hypervisor
+if ($hv -eq "Xen" -and (Test-Path $citrixMsi)) {
+   Robocopy X:\OSDCloud\Config\Drivers\Xen\ C:\Drivers\ /E /r:0 /w:0
+}
+if ($hv -eq "KVM" -and (Test-Path $citrixMsi)) {
+   Robocopy X:\OSDCloud\Config\Drivers\KVM\ C:\Drivers\ /E /r:0 /w:0
+}
+if ($hv -eq "Xen" -and (Test-Path $citrixMsi)) {
+   Robocopy X:\OSDCloud\Config\Drivers\VMware\ C:\Drivers\ /E /r:0 /w:0
+}
+if ($hv -eq "Xen" -and (Test-Path $citrixMsi)) {
+   Robocopy X:\OSDCloud\Config\Drivers\Physical\ C:\Drivers\ /E /r:0 /w:0
+}
 
 $OOBEScript = "Updates_Activation.ps1"
 Invoke-RestMethod   -Uri "https://raw.githubusercontent.com/gitzenvoo/Windows11/refs/heads/main/OSDCloud/OOBE/SplashScreen/$OOBEScript" `
