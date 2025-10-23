@@ -79,7 +79,7 @@ if ($hv -eq "Xen" -and (Test-Path $citrixMsi)) {
    Robocopy X:\OSDCloud\Config\Drivers\Xen\ C:\Drivers\ /E /r:0 /w:0
 }
 if ($hv -eq "KVM" -and (Test-Path $citrixMsi)) {
-   Robocopy X:\OSDCloud\Config\Drivers\KVM\ C:\Drivers\ /E /r:0 /w:0
+   Robocopy X:\OSDCloud\Config\Drivers\Virtio\ C:\Drivers\ /E /r:0 /w:0
 }
 if ($hv -eq "Xen" -and (Test-Path $citrixMsi)) {
    Robocopy X:\OSDCloud\Config\Drivers\VMware\ C:\Drivers\ /E /r:0 /w:0
