@@ -50,6 +50,9 @@ $Params = @{
     ZTI = $true
     Firmware = $false
     SkipAutopilot = $true
+    FindImage = $false
+    ImageIndex = 1
+    ImageFile = $LocalESD
 }
 
 ##$Params = @{
