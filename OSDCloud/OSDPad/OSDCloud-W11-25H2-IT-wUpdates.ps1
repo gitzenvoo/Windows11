@@ -68,7 +68,8 @@ $Params = @{
     ##ImageIndex = 1
     ##ImageFile = $LocalESD
 ##}
-Start-OSDCloud @Params -OSImageIndex 2
+#Start-OSDCloud @Params -OSImageIndex 2
+Start-OSDCloud -ZTI -ImageFile $LocalESD -ImageIndex 1
 
 #################################################################
 #  [PostOS] OOBE CMD Command Line
