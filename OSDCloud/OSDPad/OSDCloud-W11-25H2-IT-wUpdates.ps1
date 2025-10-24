@@ -37,8 +37,8 @@ Write-Host -ForegroundColor Green "Updating OSD PowerShell Module"
 Install-Module OSD -Force -ErrorAction SilentlyContinue
 
 Write-Host  -ForegroundColor Green "Importing OSD PowerShell Module"
-Import-Module OSD -Force   
-
+#Import-Module OSD -Force   
+Import-Module OSD -RequiredVersion 25.10.17.3 -Force
 #################################################################
 #   [OS] Params and Start-OSDCloud
 #################################################################
@@ -69,7 +69,8 @@ $Params = @{
     ##ImageFile = $LocalESD
 ##}
 #Start-OSDCloud @Params -OSImageIndex 2
-Start-OSDCloud -ZTI -ImageFile $LocalESD -ImageIndex 1
+$LocalPath = "D:\OSDCloud\OS\win11_25h2_it-it-i8.wim"
+Start-OSDCloud -ZTI -FindImage:$false -ImageFile $LocalESD -ImageIndex 1 -SkipAutopilot
 
 #################################################################
 #  [PostOS] OOBE CMD Command Line
