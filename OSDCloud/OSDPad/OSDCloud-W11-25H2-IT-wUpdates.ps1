@@ -43,15 +43,15 @@ Import-Module OSD -Force
 #   [OS] Params and Start-OSDCloud
 #################################################################
 $LocalESD = "D:\OSDCloud\OS\win11_25h2_it-it-i8.wim"
-$Global:ImageFileFullName = $LocalESD
-$Global:ImageIndex = 1
+#$Global:ImageFileFullName = $LocalESD
+#$Global:ImageIndex = 1
 
 $Params = @{
     ZTI = $true
     Firmware = $false
     SkipAutopilot = $true
     FindImage = $false
-    ImageIndex = 2
+    #ImageIndex = 2
     ImageFile = $LocalESD
 }
 
