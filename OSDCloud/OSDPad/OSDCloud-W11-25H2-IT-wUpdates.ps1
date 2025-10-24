@@ -51,7 +51,7 @@ $Params = @{
     Firmware = $false
     SkipAutopilot = $true
     FindImage = $false
-    ImageIndex = 1
+    ImageIndex = 2
     ImageFile = $LocalESD
 }
 
@@ -68,7 +68,7 @@ $Params = @{
     ##ImageIndex = 1
     ##ImageFile = $LocalESD
 ##}
-Start-OSDCloud @Params
+Start-OSDCloud @Params -OSImageIndex 2
 
 #################################################################
 #  [PostOS] OOBE CMD Command Line
