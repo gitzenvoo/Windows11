@@ -37,8 +37,8 @@ Write-Host -ForegroundColor Green "Updating OSD PowerShell Module"
 Install-Module OSD -Force -ErrorAction SilentlyContinue
 
 Write-Host  -ForegroundColor Green "Importing OSD PowerShell Module"
-Import-Module OSD -Force   
-#Import-Module OSD -RequiredVersion 25.10.17.3 -Force
+#Import-Module OSD -Force   
+Import-Module OSD -RequiredVersion 25.10.17.3 -Force -SkipPublisherCheck
 #################################################################
 #   [OS] Params and Start-OSDCloud
 #################################################################
