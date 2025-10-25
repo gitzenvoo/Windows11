@@ -72,8 +72,8 @@ $Params = @{
 #Start-OSDCloud @Params -OSImageIndex 2
 Write-Host "Copying WIM file to local disk..." -ForegroundColor Cyan
 New-Item -Path "C:\OSDCloud\OS" -ItemType Directory -Force -ErrorAction SilentlyContinue
-Copy-Item -Path "D:\OSDCloud\OS\win11_25h2_it-it-18.wim" -Destination "C:\OSDCloud\OS\" -Force -Verbose
-$LocalESD = "C:\OSDCloud\OS\win11_25h2_it-it-18.wim"
+##Copy-Item -Path "D:\OSDCloud\OS\win11_25h2_it-it-i8.wim" -Destination "C:\OSDCloud\OS\" -Force -Verbose
+##$LocalESD = "C:\OSDCloud\OS\win11_25h2_it-it-18.wim"
 
 Start-OSDCloud -ZTI  -ImageFile $LocalESD -ImageIndex 1 -SkipAutopilot
 
