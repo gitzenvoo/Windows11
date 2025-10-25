@@ -35,11 +35,12 @@ function Get-Hypervisor {
 #   [PreOS] Update Module
 #################################################################
 Write-Host -ForegroundColor Green "Updating OSD PowerShell Module"
-Install-Module OSD -Force -ErrorAction SilentlyContinue
+#Install-Module OSD -Force -ErrorAction SilentlyContinue
+Install-Module OSD -RequiredVersion 25.10.17.3 -Force -SkipPublisherCheck
 
 Write-Host  -ForegroundColor Green "Importing OSD PowerShell Module"
-#Import-Module OSD -Force   
-Import-Module OSD -RequiredVersion 25.10.17.3 -Force -SkipPublisherCheck
+Import-Module OSD -Force   
+
 #################################################################
 #   [OS] Params and Start-OSDCloud
 #################################################################
