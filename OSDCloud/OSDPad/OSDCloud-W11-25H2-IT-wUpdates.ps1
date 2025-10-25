@@ -46,6 +46,7 @@ $LocalESD = "D:\OSDCloud\OS\win11_25h2_it-it-i8.wim"
 #$Global:ImageFileFullName = $LocalESD
 #$Global:ImageIndex = 1
 
+
 $Params = @{
     ZTI = $true
     Firmware = $false
