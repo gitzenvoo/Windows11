@@ -35,8 +35,8 @@ function Get-Hypervisor {
 #   [PreOS] Update Module
 #################################################################
 Write-Host -ForegroundColor Green "Updating OSD PowerShell Module"
-#Install-Module OSD -Force -ErrorAction SilentlyContinue
-Install-Module OSD -RequiredVersion 25.10.17.3 -Force -SkipPublisherCheck
+Install-Module OSD -Force -ErrorAction SilentlyContinue
+#Install-Module OSD -RequiredVersion 25.10.17.3 -Force -SkipPublisherCheck
 
 Write-Host  -ForegroundColor Green "Importing OSD PowerShell Module"
 Import-Module OSD -Force   
@@ -58,26 +58,24 @@ $Params = @{
     ImageFile = $LocalESD
 }
 
-##$Params = @{
-    #OSVersion = "Windows 11"
-    #OSBuild = "25H2"
-    #OSEdition = "Pro"
-    #OSLanguage = "it-it"
-    #OSLicense = "Retail"
-    ##ZTI = $true
-    ##Firmware = $false
-    ##SkipAutopilot = $true
-    #FindImage = $false
-    ##ImageIndex = 1
-    ##ImageFile = $LocalESD
-##}
-#Start-OSDCloud @Params -OSImageIndex 2
-Write-Host "Copying WIM file to local disk..." -ForegroundColor Cyan
-New-Item -Path "C:\OSDCloud\OS" -ItemType Directory -Force -ErrorAction SilentlyContinue
+$Params = @{
+    OSVersion = "Windows 11"
+    OSBuild = "25H2"
+    OSEdition = "Pro"
+    OSLanguage = "it-it"
+    OSLicense = "Retail"
+    ZTI = $true
+    Firmware = $false
+    SkipAutopilot = $true
+}
+
+Start-OSDCloud @Params
+#Write-Host "Copying WIM file to local disk..." -ForegroundColor Cyan
+#New-Item -Path "C:\OSDCloud\OS" -ItemType Directory -Force -ErrorAction SilentlyContinue
 ##Copy-Item -Path "D:\OSDCloud\OS\win11_25h2_it-it-i8.wim" -Destination "C:\OSDCloud\OS\" -Force -Verbose
 ##$LocalESD = "C:\OSDCloud\OS\win11_25h2_it-it-18.wim"
 
-Start-OSDCloud -ZTI  -ImageFile $LocalESD -ImageIndex 1 -SkipAutopilot
+#Start-OSDCloud -ZTI  -ImageFile $LocalESD -ImageIndex 1 -SkipAutopilot
 
 #################################################################
 #  [PostOS] OOBE CMD Command Line
