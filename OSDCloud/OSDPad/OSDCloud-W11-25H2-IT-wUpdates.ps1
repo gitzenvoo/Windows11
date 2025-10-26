@@ -69,13 +69,13 @@ $Params = @{
     SkipAutopilot = $true
 }
 
-Start-OSDCloud @Params
+#Start-OSDCloud @Params
 #Write-Host "Copying WIM file to local disk..." -ForegroundColor Cyan
 #New-Item -Path "C:\OSDCloud\OS" -ItemType Directory -Force -ErrorAction SilentlyContinue
 ##Copy-Item -Path "D:\OSDCloud\OS\win11_25h2_it-it-i8.wim" -Destination "C:\OSDCloud\OS\" -Force -Verbose
-##$LocalESD = "C:\OSDCloud\OS\win11_25h2_it-it-18.wim"
 
-#Start-OSDCloud -ZTI  -ImageFile $LocalESD -ImageIndex 1 -SkipAutopilot
+$LocalWim = "C:\OSDCloud\OS\Win_Pro_11_24H2_Italian.wim"
+Start-OSDCloud -ZTI  -ImageFile $LocalESD -ImageIndex 1 -OSImageIndex 1 -SkipAutopilot
 
 #################################################################
 #  [PostOS] OOBE CMD Command Line
