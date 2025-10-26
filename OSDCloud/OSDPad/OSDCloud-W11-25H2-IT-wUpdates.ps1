@@ -74,8 +74,8 @@ $Params = @{
 #New-Item -Path "C:\OSDCloud\OS" -ItemType Directory -Force -ErrorAction SilentlyContinue
 ##Copy-Item -Path "D:\OSDCloud\OS\win11_25h2_it-it-i8.wim" -Destination "C:\OSDCloud\OS\" -Force -Verbose
 
-$LocalWim = "C:\OSDCloud\OS\Win_Pro_11_24H2_Italian.wim"
-Start-OSDCloud -ZTI  -ImageFile $LocalESD -ImageIndex 1 -OSImageIndex 1 -SkipAutopilot
+$LocalWim = "D:\OSDCloud\OS\Win_Pro_11_24H2_Italian.wim"
+Start-OSDCloud -ZTI  -ImageFile $LocalWim -OSImageIndex 1 -SkipAutopilot
 
 #################################################################
 #  [PostOS] OOBE CMD Command Line
