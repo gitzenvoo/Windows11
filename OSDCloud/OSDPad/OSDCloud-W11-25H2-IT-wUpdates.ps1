@@ -16,6 +16,67 @@
 #>
 
 
+
+# Script di installazione manuale - bypassa Start-OSDCloud
+
+Write-Host "Starting Custom Windows Installation..." -ForegroundColor Cyan
+
+# 1. Prepara il disco
+Write-Host "Preparing disk..." -ForegroundColor Yellow
+$Disk = Get-Disk | Where-Object {$_.BusType -ne 'USB'} | Select-Object -First 1
+Clear-Disk -Number $Disk.Number -RemoveData -Confirm:$false -ErrorAction SilentlyContinue
+
+Initialize-Disk -Number $Disk.Number -PartitionStyle GPT
+
+# Crea partizioni
+$EFI = New-Partition -DiskNumber $Disk.Number -Size 100MB -GptType '{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}'
+$MSR = New-Partition -DiskNumber $Disk.Number -Size 128MB -GptType '{e3c9e316-0b5c-4db8-817d-f92df00215ae}'
+$Windows = New-Partition -DiskNumber $Disk.Number -UseMaximumSize -GptType '{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}'
+
+# Formatta partizioni
+Format-Volume -Partition $EFI -FileSystem FAT32 -NewFileSystemLabel "System" -Confirm:$false
+$Windows | Format-Volume -FileSystem NTFS -NewFileSystemLabel "Windows" -Confirm:$false
+
+# Assegna lettere drive
+$EFI | Set-Partition -NewDriveLetter S
+$Windows | Set-Partition -NewDriveLetter W
+
+Write-Host "Disk prepared successfully!" -ForegroundColor Green
+
+# 2. Applica l'immagine Windows
+Write-Host "Applying Windows image..." -ForegroundColor Yellow
+$ImageFile = "D:\OSDCloud\OS\Win_Pro_11_24H2_Italian.wim"
+
+if (!(Test-Path $ImageFile)) {
+    Write-Host "ERROR: Image file not found at $ImageFile" -ForegroundColor Red
+    Read-Host "Press Enter to exit"
+    exit
+}
+
+Expand-WindowsImage -ImagePath $ImageFile -Index 1 -ApplyPath "W:\" -Verify
+
+Write-Host "Windows image applied successfully!" -ForegroundColor Green
+
+# 3. Configura il boot
+Write-Host "Configuring boot..." -ForegroundColor Yellow
+bcdboot W:\Windows /s S: /f UEFI
+
+Write-Host "Boot configuration completed!" -ForegroundColor Green
+
+# 4. Copia i driver (opzionale)
+if (Test-Path "D:\Drivers") {
+    Write-Host "Copying drivers..." -ForegroundColor Yellow
+    robocopy "D:\Drivers" "W:\Drivers" /E /MT:8 /R:1 /W:1 /NFL /NDL /NP
+}
+
+Write-Host ""
+Write-Host "Installation completed successfully!" -ForegroundColor Green
+Write-Host "Remove installation media and press Enter to restart..." -ForegroundColor Yellow
+Read-Host
+
+Restart-Computer -Force
+
+
 function Get-Hypervisor {
     try {
         $cs = Get-CimInstance -ClassName Win32_ComputerSystem
